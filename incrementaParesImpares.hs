@@ -12,7 +12,7 @@ main = do
     linea <- getLine
     let numeros = map read (words linea) :: [Integer]
     let resultado = incParesImparesFuntor numeros
-    putStrLn $ "La lista original: " ++ show resultado
+    putStrLn $ "La lista original: " ++ show numeros
     putStrLn $ "La lista resultante después de incrementar pares e impares es: " ++ show resultado
     putStrLn "Presione enter para finalizar..."
     _ <- getLine
