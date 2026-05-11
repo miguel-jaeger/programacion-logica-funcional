@@ -1,9 +1,0 @@
-CREATE DATABASE haskell_db;
-USE haskell_db;
-
-CREATE TABLE usuario (
-    idusuario INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100),
-    apellido VARCHAR(100),
-    dni VARCHAR(8)
-);
