@@ -6,7 +6,7 @@ import Data.Maybe (mapMaybe)
 procesarSQL :: String -> [(Int, String)]
 procesarSQL entrada = 
     let -- mapMaybe aplica una función que devuelve Maybe y descarta los Nothing
-        ids = mapMaybe readMaybe (words entrada) :: [Int]
+        ids = map read (words entrada) :: [Int]
         -- para filtrar los IDs válidos, eliminamos el 0 y cualquier valor no numérico
         validos = filter (/= 0) ids 
     in map (\id -> if id > 0 
@@ -16,7 +16,7 @@ procesarSQL entrada =
 main :: IO ()
 main = do
     putStrLn "Ingrese IDs separados por espacios (ej: 1 3 5 0 hola):"
-    hFlush stdout
+    --hFlush stdout
     datosRaw <- getLine 
     
     let datosExternos = procesarSQL datosRaw
