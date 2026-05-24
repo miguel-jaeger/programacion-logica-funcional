@@ -1,0 +1,5 @@
+allow-newer: *:base
+
+package crudSimple
+  extra-include-dirs: "C:\\Servidor\\bin\\mysql\\mysql9.1.0\\include"
+  extra-lib-dirs:     "C:\\Servidor\\bin\\mysql\\mysql9.1.0\\lib"
