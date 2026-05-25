@@ -1,0 +1,251 @@
+# CRUD Simple en Haskell con MySQL
+
+Proyecto académico que implementa operaciones básicas de base de datos (Create, Read, Update) usando Haskell y MySQL. Permite a los estudiantes comprender la conexión a bases de datos relacionales desde Haskell utilizando sentencias preparadas y conversión de tipos.
+
+---
+
+# 1. Objetivo del proyecto
+
+* Conectar Haskell con MySQL.
+* Ejecutar sentencias SQL desde Haskell.
+* Convertir resultados de MySQL a tipos definidos en el programa.
+* Implementar operaciones básicas CRUD.
+
+---
+
+# 2. Requisitos previos
+
+Instalar las siguientes herramientas:
+
+* GHC
+* Cabal
+* MySQL Server 8.x
+* Editor de código (VS Code recomendado)
+
+## 2.1 Instalación de GHC y Cabal
+
+Instalar mediante GHCup:
+
+[https://www.haskell.org/ghcup/](https://www.haskell.org/ghcup/)
+
+Verificar instalación:
+
+```
+ghc --version
+cabal --version
+```
+
+---
+
+# 3. Instalación y configuración de MySQL (Utilizar version 5)
+
+## 3.1 Crear base de datos
+
+Ingresar a MySQL:
+
+```
+mysql -u root -p
+```
+
+Crear base de datos:
+
+```
+CREATE DATABASE haskell_db;
+```
+
+Seleccionar base:
+
+```
+USE haskell_db;
+```
+
+## 3.2 Crear tabla
+
+```
+CREATE TABLE usuario (
+    idusuario INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100),
+    apellido VARCHAR(100),
+    dni VARCHAR(20)
+);
+```
+
+---
+
+# 4. Creación del proyecto Haskell
+
+En consola:
+
+```
+cabal init -n --is-executable --package-name crudSimple
+```
+
+Se generará la estructura básica del proyecto.
+
+---
+
+# 5. Configuración de dependencias
+
+Abrir el archivo:
+
+```
+crudSimple.cabal
+```
+
+Modificar la sección `build-depends` del ejecutable:
+
+```
+build-depends:
+    base >=4.7 && <5,
+    mysql-haskell,
+    io-streams,
+    text,
+    bytestring
+```
+
+Guardar cambios y ejecutar:
+
+```
+cabal update
+cabal build
+```
+
+---
+
+# 6. Estructura del proyecto
+
+```
+crudSimple/
+ ├─ app/
+ │   └─ Main.hs
+ ├─ crudSimple.cabal
+ └─ cabal.project
+```
+
+---
+
+# 7. Código fuente
+
+Reemplazar el contenido de `app/Main.hs` por el código proporcionado en el proyecto.
+
+---
+
+# 8. Configuración de conexión
+
+En la función `main` se configura la conexión:
+
+```
+ciHost     = "localhost"
+ciUser     = "root"
+ciPassword = ""
+ciDatabase = "haskell_db"
+```
+
+Si el usuario tiene contraseña:
+
+```
+ciPassword = "tu_password"
+```
+
+---
+
+# 9. Ejecución del proyecto
+
+Desde la raíz del proyecto:
+
+```
+cabal run
+```
+
+El programa:
+
+1. Inserta un usuario.
+2. Lista todos los usuarios.
+3. Filtra los que se llaman "Miguel".
+4. Actualiza el nombre del usuario con id 1.
+
+---
+
+# 10. Modelo de datos
+
+```
+data Usuario = Usuario
+    { usuarioId :: Int
+    , nombre    :: String
+    , apellido  :: String
+    , dni       :: String
+    }
+```
+
+---
+
+# 11. Operaciones implementadas
+
+## CREATE
+
+Inserta un nuevo usuario usando sentencia preparada.
+
+## READ
+
+Consulta todos los registros y los convierte en valores del tipo `Usuario`.
+
+## UPDATE
+
+Actualiza el nombre de un usuario por su identificador.
+
+---
+
+# 12. Conversión de tipos MySQL
+
+Se manejan los siguientes tipos:
+
+* MySQLInt32
+* MySQLInt64
+* MySQLText
+* MySQLBytes
+* MySQLNull
+
+Se implementan funciones auxiliares:
+
+* `toInt`
+* `toStr`
+
+---
+
+# 13. Problemas comunes y soluciones
+
+## Error 1251 autenticación
+
+El cliente no soporta el protocolo del servidor. Verificar versión de MySQL o crear usuario compatible.
+
+## Plugin mysql_native_password no cargado
+
+Usar autenticación por defecto del servidor.
+
+## MySQLNull en resultados
+
+Asegurar que la función `toStr` contemple el caso `MySQLNull`.
+
+## Paquete oculto bytestring
+
+Agregar `bytestring` en `build-depends`.
+
+---
+
+# 14. Ejercicios propuestos
+
+1. Implementar DELETE.
+2. Implementar búsqueda por DNI.
+3. Agregar menú interactivo.
+4. Separar el modelo y la lógica en módulos.
+5. Manejar errores sin usar `error`.
+
+---
+
+# 15. Competencias desarrolladas
+
+* Programación funcional aplicada a bases de datos.
+* Uso de sentencias preparadas.
+* Manejo de tipos y conversión de datos.
+* Organización básica de proyectos con Cabal.
+
