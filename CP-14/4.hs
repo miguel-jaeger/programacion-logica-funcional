@@ -1,0 +1,34 @@
+-- Definimos el operador para reglas
+infix 5 :-
+data Rule = String :- [String]
+
+-- Base de Conocimiento
+type BC = [Rule]
+type Goal = String
+
+-- Motor de inferencia (encadenamiento hacia atrás)
+consultar :: BC -> Goal -> Bool
+consultar bc goal = probar bc goal []
+
+probar :: BC -> Goal -> [Goal] -> Bool
+probar _ goal visitados  | goal `elem` visitados = False
+probar bc goal visitados =  any coincide bc 
+    where
+    coincide (cabeza :- cuerpo) =
+        cabeza == goal && all (\subgoal -> probar bc subgoal (goal : visitados)) cuerpo
+
+bcSoporte :: BC
+bcSoporte = [
+    "falla_encendido" :- ["falla_energia"],
+    "falla_encendido" :- ["boton_roto"],
+    "falla_energia" :- ["sin_luz", "sin_bateria"],
+    "sin_luz" :- [] -- Solo tenemos este hecho
+  ]
+
+main :: IO ()
+main = do   
+    let resultado = consultar bcSoporte "falla_encendido"
+    putStrLn $ "Consulta: consultar bcSoporte \"falla_encendido\" -> " ++ show resultado
+    putStrLn "Presione una tecla para finalizar..."
+    _ <- getLine
+    return ()  
