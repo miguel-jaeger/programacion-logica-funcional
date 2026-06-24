@@ -22,6 +22,9 @@ bcRed =
 -- 2. Función principal de consulta
 -- Recibe una BC y un objetivo (goal)
 -- Devuelve True si el objetivo puede demostrarse, False en caso contrario
+-- consultar: interfaz pública para comprobar si `goal` se puede
+-- demostrar a partir de la base de conocimiento `bc`.
+-- Inicializa la búsqueda sin metas visitadas.
 consultar :: BC -> Goal -> Bool
 consultar bc goal = probar bc goal []
 
@@ -29,6 +32,12 @@ consultar bc goal = probar bc goal []
 -- bc: base de conocimiento
 -- goal: objetivo actual a demostrar
 -- visitados: lista de metas ya visitadas (evita ciclos infinitos)
+-- probar: motor recursivo de encadenamiento hacia atrás.
+-- Parámetros:
+--  * `bc`: base de conocimiento
+--  * `goal`: objetivo actual a demostrar
+--  * `visitados`: objetivos ya explorados (previene ciclos)
+-- Devuelve True si `goal` puede demostrarse.
 probar :: BC -> Goal -> [Goal] -> Bool
 probar _ goal visitados
 -- Si ya visitamos esta meta, detenemos la búsqueda

@@ -1,37 +1,114 @@
--- Definimos el operador para reglas
+-- ============================================================================
+-- SISTEMA DE REGLAS Y MOTOR DE INFERENCIA PARA RUTAS
+-- ============================================================================
+-- Este programa implementa un motor de inferencia usando encadenamiento hacia
+-- atrás (backward chaining) para determinar si existen rutas entre puntos.
+
+-- Definimos el operador infijo :- para representar reglas (cabeza :- cuerpo)
+-- El nivel de precedencia 5 permite asociatividad adecuada en expresiones
 infix 5 :-
-data Rule = String :- [String]
+data Rule = String :- [String]  -- Una regla: conclusión :- [premisas]
 
--- Base de Conocimiento
-type BC = [Rule]
-type Goal = String
+-- Alias de tipos para mayor claridad semántica
+type BC = [Rule]      -- BC: Base de Conocimiento (conjunto de reglas)
+type Goal = String    -- Goal: Objetivo/Meta a demostrar (String)
 
--- Motor de inferencia (encadenamiento hacia atrás)
+-- ============================================================================
+-- FUNCIÓN: consultar
+-- ============================================================================
+-- Propósito: Función principal que verifica si un objetivo se puede probar
+--            usando la base de conocimiento.
+-- 
+-- Tipo: consultar :: BC -> Goal -> Bool
+-- 
+-- Parámetros:
+--   - bc (Base de Conocimiento): Lista de reglas disponibles
+--   - goal (Objetivo): Meta a demostrar
+-- 
+-- Retorna: Bool - True si el objetivo se puede demostrar, False en caso contrario
+-- 
+-- Explicación:
+--   Esta función es la interfaz pública del motor de inferencia. Inicia el
+--   proceso de demostración con una lista vacía de objetivos visitados para
+--   detectar ciclos infinitos.
 consultar :: BC -> Goal -> Bool
 consultar bc goal = probar bc goal []
 
+-- ============================================================================
+-- FUNCIÓN: probar
+-- ============================================================================
+-- Propósito: Motor de inferencia recursivo que usa encadenamiento hacia atrás
+--            para demostrar un objetivo.
+-- 
+-- Tipo: probar :: BC -> Goal -> [Goal] -> Bool
+-- 
+-- Parámetros:
+--   - bc (Base de Conocimiento): Lista de reglas disponibles
+--   - goal (Objetivo actual): Meta que intentamos demostrar
+--   - visitados (Objetivos visitados): Objetivos ya explorados (previene ciclos)
+-- 
+-- Retorna: Bool - True si el objetivo se puede demostrar, False en caso contrario
+-- 
+-- Explicación:
+--   Esta función implementa el algoritmo de backward chaining:
+--   
+--   1. Verificación de ciclos: Si el objetivo ya está en 'visitados', retorna
+--      False para evitar bucles infinitos.
+--   
+--   2. Búsqueda en la base de conocimiento: Para cada regla en BC, intenta
+--      hacer coincidir la cabeza de la regla con el objetivo.
+--   
+--   3. Demostración de premisas: Si la cabeza coincide, debe demostrar TODAS
+--      las premisas (cuerpo) de la regla de forma recursiva.
+--   
+--   4. Recursión: Para cada subobjetivo, llama recursivamente a probar,
+--      agregando el objetivo actual a la lista de visitados.
 probar :: BC -> Goal -> [Goal] -> Bool
+-- Caso base: Si el objetivo ya fue visitado, hay ciclo -> retornar False
 probar _ goal visitados
   | goal `elem` visitados = False
+-- Caso recursivo: Intentar encontrar una regla que coincida
 probar bc goal visitados =
-  any coincide bc
+  any coincide bc  -- Retorna True si existe alguna regla que coincida
   where
     coincide (cabeza :- cuerpo) =
+      -- La cabeza debe coincidir exactamente con el objetivo
       cabeza == goal &&
+      -- TODAS las premisas del cuerpo deben poderse demostrar recursivamente
       all (\subgoal -> probar bc subgoal (goal : visitados)) cuerpo
-bcParentesco :: BC
-bcParentesco = [
-    "abuelo_pedro_luis" :- ["padre_pedro_juan", "padre_juan_luis"],
-    "padre_pedro_juan" :- [],
-    "padre_juan_luis" :- []
+
+-- ============================================================================
+-- BASE DE CONOCIMIENTO: SISTEMA DE RUTAS DE RED
+-- ============================================================================
+-- Esta base de conocimiento define las rutas disponibles en una red de puntos
+-- conectados. Una ruta existe si se pueden seguir conexiones intermedias.
+bcRed :: BC
+bcRed = [
+    -- REGLA 1: Existe ruta de A a C si hay conexión A->B y conexión B->C
+    "ruta_A_C" :- ["conecta_A_B", "conecta_B_C"],
+    
+    -- HECHO 1: Existe conexión directa de A a B (sin condiciones)
+    "conecta_A_B" :- [],
+    
+    -- HECHO 2: Existe conexión directa de B a C (sin condiciones)
+    "conecta_B_C" :- []
     ]
--- Consulta: consultar bcParentesco "abuelo_pedro_luis" -> True
+    
+-- ============================================================================
+-- FUNCIÓN: main
+-- ============================================================================
+-- Propósito: Punto de entrada del programa. Ejecuta consultas de demostración
+--            y muestra los resultados.
+-- 
+-- Explicación:
+--   Este programa demuestra cómo usar el motor de inferencia para consultar
+--   la base de conocimiento.
 main :: IO ()
-main = do
-        let resultado = consultar bcParentesco "abuelo_pedro_juan"
-        putStrLn $ "Consulta: consultar bcParentesco \"abuelo_pedro_luis\" -> " ++ show resultado
-        let resultado2 = consultar bcParentesco "padre_pedro_juan" 
-        putStrLn $ "Consulta: consultar bcParentesco \"padre_pedro_juan\" -> " ++ show resultado2    
+main = do        
+        -- Consulta: ¿Existe ruta de A a J?
+        -- Resultado esperado: False (no hay regla para "ruta_A_J")
+        let resultado = consultar bcRed "ruta_A_J"
+        putStrLn $ "Consulta: consultar bcRed \"ruta_A_J\" -> " ++ show resultado
         putStrLn "Presione una tecla para finalizar..."
         _ <- getLine
         return ()
