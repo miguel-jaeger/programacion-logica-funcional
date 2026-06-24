@@ -86,12 +86,18 @@ bcRed :: BC
 bcRed = [
     -- REGLA 1: Existe ruta de A a C si hay conexión A->B y conexión B->C
     "ruta_A_C" :- ["conecta_A_B", "conecta_B_C"],
-    
+    --- REGLA 2: Existe ruta de A a D si hay conexión A->B y ruta de B a D
+    "ruta_A_D" :- ["conecta_A_B", "ruta_B_D"],
+    -- Para que `ruta_B_D` pueda demostrarse, añadimos la regla que
+    -- la conecta con la existencia de la conexión directa B->D.
+    "ruta_B_D" :- ["conecta_B_D"],
     -- HECHO 1: Existe conexión directa de A a B (sin condiciones)
     "conecta_A_B" :- [],
     
     -- HECHO 2: Existe conexión directa de B a C (sin condiciones)
-    "conecta_B_C" :- []
+    "conecta_B_C" :- [],
+    -- HECHO 3: Existe conexión directa de B a D (sin condiciones)
+    "conecta_B_D" :- []
     ]
     
 -- ============================================================================
@@ -105,10 +111,11 @@ bcRed = [
 --   la base de conocimiento.
 main :: IO ()
 main = do        
-        -- Consulta: ¿Existe ruta de A a J?
-        -- Resultado esperado: False (no hay regla para "ruta_A_J")
-        let resultado = consultar bcRed "ruta_A_J"
-        putStrLn $ "Consulta: consultar bcRed \"ruta_A_J\" -> " ++ show resultado
+        -- Consulta: ¿Existe ruta de A a B?
+        -- Resultado esperado: True (hay regla para "ruta_A_B")
+        let resultado = consultar bcRed "ruta_A_D"
+        putStrLn $ "Consulta: consultar bcRed \"ruta_A_D\" -> " ++ show resultado    
+        
         putStrLn "Presione una tecla para finalizar..."
         _ <- getLine
         return ()
