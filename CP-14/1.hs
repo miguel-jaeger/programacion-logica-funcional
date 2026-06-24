@@ -92,8 +92,7 @@ bcRed = [
     -- la conecta con la existencia de la conexión directa B->D.
     "ruta_B_D" :- ["conecta_B_D"],
     -- HECHO 1: Existe conexión directa de A a B (sin condiciones)
-    "conecta_A_B" :- [],
-    
+    "conecta_A_B" :- [],    
     -- HECHO 2: Existe conexión directa de B a C (sin condiciones)
     "conecta_B_C" :- [],
     -- HECHO 3: Existe conexión directa de B a D (sin condiciones)
