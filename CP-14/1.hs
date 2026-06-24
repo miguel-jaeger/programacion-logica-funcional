@@ -82,6 +82,46 @@ probar bc goal visitados =
 -- ============================================================================
 -- Esta base de conocimiento define las rutas disponibles en una red de puntos
 -- conectados. Una ruta existe si se pueden seguir conexiones intermedias.
+--
+-- Grafo (ASCII) — nodos, conexiones directas y rutas derivadas:
+-- Grafo (ASCII) — nodos, aristas etiquetadas con funciones de conexión:
+--
+--     A
+--     |
+--     |  (conecta_A_B)
+--     v
+--     B
+--    / \\
+--   /   \\
+--  v     v
+--  C     D
+--
+-- Aristas etiquetadas:
+--  A -[conecta_A_B]-> B
+--  B -[conecta_B_C]-> C
+--  B -[conecta_B_D]-> D
+--
+-- Rutas derivadas (ejemplos):
+--  - ruta_B_D: B -> D (por conecta_B_D)
+--  - ruta_A_C: A -> B -> C (por conecta_A_B y conecta_B_C)
+--  - ruta_A_D: A -> B -> D (por conecta_A_B y ruta_B_D)
+--
+-- Versión mermaid (texto) con etiquetas en aristas:
+-- ```mermaid
+-- flowchart TD
+--   A((A))
+--   B((B))
+--   C((C))
+--   D((D))
+--
+--   A -- "conecta_A_B" --> B
+--   B -- "conecta_B_C" --> C
+--   B -- "conecta_B_D" --> D
+--
+--   %% rutas derivadas (conceptuales)
+--   A -- "ruta_A_C (via B)" --> C
+--   A -- "ruta_A_D (via B)" --> D
+-- ```
 bcRed :: BC
 bcRed = [
     -- REGLA 1: Existe ruta de A a C si hay conexión A->B y conexión B->C
