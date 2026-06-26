@@ -72,6 +72,8 @@ bcParentesco = [
     "abuelo_pedro_luis" :- ["padre_pedro_juan",  "padre_juan_luis"],
 
     "abuelo_pedro_luisa" :- ["padre_pedro_juan", "padre_juan_luisa"],
+
+    "abuelo_juan_ana" :- ["padre_juan_luis", "padre_luis_ana"],
     
     -- HECHO: Pedro es padre de Juan (relación base verificada)
     "padre_pedro_juan" :- [],
@@ -80,7 +82,10 @@ bcParentesco = [
     "padre_juan_luis" :- [],
 
     -- HECHO: Juan es padre de Luisa (relación base verificada)
-    "padre_juan_luisa" :- []
+    "padre_juan_luisa" :- [],
+
+    -- HECHO: Luis es padre de Ana (relación base verificada)
+    "padre_luis_ana" :- []
     ]
 
 -- ============================================================================
@@ -118,6 +123,11 @@ main = do
         -- Resultado: True (es un hecho directo en la base de conocimiento)
         let resultado5 = consultar bcParentesco "abuelo_pedro_juan" 
         putStrLn $ "Consulta 5: consultar bcParentesco \"abuelo_pedro_juan\" -> " ++ show resultado5
+
+        -- Consulta 5: ¿Es Juan abuelo de Ana?
+        -- Resultado: True (es un hecho directo en la base de conocimiento)
+        let resultado5 = consultar bcParentesco "abuelo_juan_ana" 
+        putStrLn $ "Consulta 5: consultar bcParentesco \"abuelo_juan_ana\" -> " ++ show resultado5
                
         
         putStrLn "Presione una tecla para finalizar..."
