@@ -92,7 +92,7 @@ main = do
     --   1. Para "aprobado_PROG" necesito "aprobado_INTRO"
     --   2. "aprobado_INTRO" es un hecho (lista vacía de condiciones)
     --   3. Resultado: True
-    let resultado = consultar bcCurriculo "aprobado_PROG"
+    let resultado = consultar bcCurriculo "puede_ALG"
     putStrLn $ "Consulta: consultar bcCurriculo \"aprobado_PROG\" -> " ++ show resultado
     putStrLn "Presione una tecla para finalizar..."
     _ <- getLine

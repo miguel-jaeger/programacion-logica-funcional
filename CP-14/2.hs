@@ -89,10 +89,10 @@ bcParentesco = [
 --   2. Demostrar hechos directos de la base de conocimiento
 main :: IO ()
 main = do
-        -- Consulta 1: ¿Es Pedro abuelo de Juan?
-        -- Resultado: False (no existe la regla, se consulta "abuelo_pedro_juan")
-        let resultado = consultar bcParentesco "abuelo_pedro_juan"
-        putStrLn $ "Consulta 1: consultar bcParentesco \"abuelo_pedro_juan\" -> " ++ show resultado
+        -- Consulta 1: ¿Es Pedro abuelo de Luis?
+        -- Resultado: True (existe la regla y se consultan las premisas)
+        let resultado = consultar bcParentesco "abuelo_pedro_luis"
+        putStrLn $ "Consulta 1: consultar bcParentesco \"abuelo_pedro_luis\" -> " ++ show resultado
         
         -- Consulta 2: ¿Es Pedro padre de Juan?
         -- Resultado: True (es un hecho directo en la base de conocimiento)

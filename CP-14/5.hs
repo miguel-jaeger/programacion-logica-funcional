@@ -64,6 +64,16 @@ probar bc goal visitados =
 -- - Nivel 1: Requiere autorización de limpieza de seguridad
 -- - Limpieza de seguridad: Juan pasó esta verificación (hecho)
 -- 
+{-
+[ acceso_nivel_2_juan ] (Objetivo)
+                        /         \
+                       /           \
+                      v             \
+           [ acceso_nivel_1_juan ]   \
+                        \             \
+                         \             v
+                          +----> [ limpieza_seguridad_juan ] (Hecho Base)
+-}
 bcSeguridad :: BC
 bcSeguridad = [
     -- REGLA 1: Acceso Nivel 2 para Juan requiere:
