@@ -69,23 +69,39 @@ bcParentesco = [
     -- REGLA: Pedro es abuelo de Luis si:
     --        1) Pedro es padre de Juan, Y
     --        2) Juan es padre de Luis
+    --abuelos:
     "abuelo_pedro_luis" :- ["padre_pedro_juan",  "padre_juan_luis"],
 
     "abuelo_pedro_luisa" :- ["padre_pedro_juan", "padre_juan_luisa"],
 
-    "abuelo_juan_ana" :- ["padre_juan_luis", "padre_luis_ana"],
+    "abuelo_pedro_maria" :- ["padre_pedro_juana", "padre_juana_maria"],
+
+    --hermanos:
+
+    "hermano_juan_juana" :- ["padre_pedro_juan", "padre_pedro_juana"],
+
+    "hermano_luis_luisa" :- ["padre_juan_luis", "padre_juan_luisa"],
+
+    --tios:
+
+    "tio_juan_maria" :- ["hermano_juan_juana", "padre_juana_maria"],
     
-    -- HECHO: Pedro es padre de Juan (relación base verificada)
+    "tio_juana_luis" :- ["hermano_juan_juana", "padre_juan_luis"],
+
+    "tio_juana_luisa" :- ["hermano_juan_juana", "padre_juan_luisa"],
+
+    --hechos:
+    "padre_pedro_juana" :- [],
+
+    "padre_juana_maria" :- [],
+
     "padre_pedro_juan" :- [],
     
-    -- HECHO: Juan es padre de Luis (relación base verificada)
     "padre_juan_luis" :- [],
 
-    -- HECHO: Juan es padre de Luisa (relación base verificada)
-    "padre_juan_luisa" :- [],
+    "padre_juan_luisa" :- []
 
-    -- HECHO: Luis es padre de Ana (relación base verificada)
-    "padre_luis_ana" :- []
+    
     ]
 
 -- ============================================================================
@@ -100,15 +116,13 @@ bcParentesco = [
 main :: IO ()
 main = do
         -- Consulta 1: ¿Es Pedro abuelo de Juan?
-        -- Resultado: False (no existe la regla, se consulta "abuelo_pedro_juan")
-        let resultado = consultar bcParentesco "abuelo_pedro_juan"
-        putStrLn $ "Consulta 1: consultar bcParentesco \"abuelo_pedro_juan\" -> " ++ show resultado
-        
-        -- Consulta 2: ¿Es Pedro padre de Juan?
-        -- Resultado: True (es un hecho directo en la base de conocimiento)
-        let resultado2 = consultar bcParentesco "padre_pedro_juan" 
-        putStrLn $ "Consulta 2: consultar bcParentesco \"padre_pedro_juan\" -> " ++ show resultado2    
 
+        -- Consulta 2: ¿Es Pedro padre de Juan?
+   
+         -- Resultado: True (es un hecho directo en la base de conocimiento)
+        let resultado5 = consultar bcParentesco "abuelo_pedro_maria" 
+        putStrLn $ "Consulta 5: consultar bcParentesco \"abuelo_pedro_maria\" -> " ++ show resultado5
+              
         -- Consulta 3: ¿Es Pedro abuelo de Luis?
         -- Resultado: True (es un hecho directo en la base de conocimiento)
         let resultado3 = consultar bcParentesco "abuelo_pedro_luis" 
@@ -119,17 +133,43 @@ main = do
         let resultado4 = consultar bcParentesco "abuelo_pedro_luisa" 
         putStrLn $ "Consulta 4: consultar bcParentesco \"abuelo_pedro_luisa\" -> " ++ show resultado4
 
+        -- Resultado: True (es un hecho directo en la base de conocimiento)
+        let resultado2 = consultar bcParentesco "padre_pedro_juan" 
+        putStrLn $ "Consulta 2: consultar bcParentesco \"padre_pedro_juan\" -> " ++ show resultado2 
+
+        let resultado2 = consultar bcParentesco "padre_pedro_juana" 
+        putStrLn $ "Consulta 2: consultar bcParentesco \"padre_pedro_juana\" -> " ++ show resultado2 
+
+        let resultado2 = consultar bcParentesco "padre_juan_luis" 
+        putStrLn $ "Consulta 2: consultar bcParentesco \"padre_juan_luis\" -> " ++ show resultado2 
+
+        let resultado2 = consultar bcParentesco "padre_juan_luisa" 
+        putStrLn $ "Consulta 2: consultar bcParentesco \"padre_juan_luisa\" -> " ++ show resultado2 
+
+        let resultado2 = consultar bcParentesco "padre_juana_maria" 
+        putStrLn $ "Consulta 2: consultar bcParentesco \"padre_juana_maria\" -> " ++ show resultado2 
+
+        -- Resultado: False (no existe la regla, se consulta "abuelo_pedro_juan")
+        let resultado = consultar bcParentesco "hermano_juan_juana"
+        putStrLn $ "Consulta 1: consultar bcParentesco \"hermano_juan_juana\" -> " ++ show resultado
+        
+        let resultado = consultar bcParentesco "hermano_luis_luisa"
+        putStrLn $ "Consulta 1: consultar bcParentesco \"hermano_luis_luisa\" -> " ++ show resultado
+        
         -- Consulta 5: ¿Es Pedro abuelo de Luisa?
         -- Resultado: True (es un hecho directo en la base de conocimiento)
-        let resultado5 = consultar bcParentesco "abuelo_pedro_juan" 
-        putStrLn $ "Consulta 5: consultar bcParentesco \"abuelo_pedro_juan\" -> " ++ show resultado5
+        let resultado5 = consultar bcParentesco "tio_juan_maria" 
+        putStrLn $ "Consulta 5: consultar bcParentesco \"tio_juan_maria\" -> " ++ show resultado5
+        let resultado5 = consultar bcParentesco "tio_juana_luis" 
+        putStrLn $ "Consulta 5: consultar bcParentesco \"tio_juana_luis\" -> " ++ show resultado5
+        let resultado5 = consultar bcParentesco "tio_juana_luisa" 
+        putStrLn $ "Consulta 5: consultar bcParentesco \"tio_juana_luisa\" -> " ++ show resultado5
 
-        -- Consulta 5: ¿Es Juan abuelo de Ana?
-        -- Resultado: True (es un hecho directo en la base de conocimiento)
-        let resultado5 = consultar bcParentesco "abuelo_juan_ana" 
-        putStrLn $ "Consulta 5: consultar bcParentesco \"abuelo_juan_ana\" -> " ++ show resultado5
+        let resultado5 = consultar bcParentesco "padre_pedro_maria" 
+        putStrLn $ "Consulta 5: consultar bcParentesco \"padre_pedro_maria\" -> " ++ show resultado5
+
+        -- Consulta 5: ¿Es Juan abuelo de Maria?
                
-        
         putStrLn "Presione una tecla para finalizar..."
         _ <- getLine
         return ()
