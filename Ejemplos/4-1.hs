@@ -15,7 +15,8 @@ contar x (Nodo valor izq der)
 
 main :: IO ()
 main = do
-    let arbol = Nodo 5 (Nodo 3 Vacio Vacio) (Nodo 7 (Nodo 4 Vacio Vacio) (Nodo 5 (Nodo 4 (Nodo 4 Vacio Vacio) (Nodo 4 Vacio Vacio)) (Nodo 7 Vacio Vacio)))
+    --let arbol = Nodo 5 (Nodo 3 Vacio Vacio) (Nodo 7 (Nodo 4 Vacio Vacio) (Nodo 5 (Nodo 4 (Nodo 4 Vacio Vacio) (Nodo 4 Vacio Vacio)) (Nodo 7 Vacio Vacio)))
+    let arbol = Nodo 1 (Nodo 2 (Nodo 4 Vacio Vacio) (Nodo 5 (Nodo 4 Vacio Vacio)  Vacio) ) (Nodo 3 (Nodo 6 (Nodo 9 (Nodo 4 Vacio Vacio)  (Nodo 4 Vacio Vacio) )  (Nodo 10 (Nodo 4 Vacio Vacio)  Vacio) )  (Nodo 7 (Nodo 4 Vacio Vacio)  Vacio) ) 
     -- Representación gráfica del árbol:
     --         5
     --        / \   
@@ -23,7 +24,10 @@ main = do
     --          / \
     --         4   4
    
-    let elemento = 7
+    --let elemento = 7
+    putStrLn("Diga elemento a buscar")
+    input<-getLine
+    let elemento = read input::Int
     let cantidad = contar elemento arbol 
        
     putStrLn $ "El elemento " ++ show elemento ++ " aparece " ++ show cantidad ++ " vez/veces en el árbol."
