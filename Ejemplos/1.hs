@@ -20,7 +20,17 @@ esCandidatoApto edad habs =
 
 main :: IO ()
 main = do
-    let edadMiguel = 30
-    let habilidadesMiguel = ["C++", "Prolog", "Haskell"]
+   -- let edadMiguel = 30
+    putStrLn "Diga su edad"
+    input1 <- getLine
+    let edadMiguel = read input1 :: Int
+    --let habilidadesMiguel = ["C++", "Prolog", "Haskell"]
+    putStrLn("Diga sus habilidades separadas por espacio")
+    input<-getLine
+    let habilidadesMiguel= words input::[String]
+    putStrLn("Lista de habilidades de Miguel"++ show habilidadesMiguel)
     let esApto = esCandidatoApto edadMiguel habilidadesMiguel
-    putStrLn $ "¿Miguel es un candidato apto? " ++ show esApto
+    let msg= if esApto
+        then  "Si cumple."
+        else  "No cumple."
+    putStrLn $ "¿Miguel es un candidato apto? " ++ msg
