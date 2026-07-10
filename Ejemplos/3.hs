@@ -6,6 +6,18 @@ pertenece x (y:ys)
 
 main :: IO ()
 main = do
-        let elemento = 3
-        let lista = [1, 2, 3, 4, 5]
-        putStrLn $ "¿El elemento " ++ show elemento ++ " pertenece a la lista? " ++ show (pertenece elemento lista)
+    --    let elemento = 3
+    putStrLn "Diga elemento a buscar"
+    input <- getLine
+    let elemento = read input :: Int
+
+    putStrLn("Diga lista de elementos")
+    input1<-getLine
+    let lista= read input1::[Int]
+
+    let msg= if pertenece elemento lista 
+            then "Si"
+            else "No" 
+
+    --    let lista = [1, 2, 3, 4, 5]
+    putStrLn $ "¿El elemento " ++ show elemento ++ " pertenece a la lista? " ++  msg
