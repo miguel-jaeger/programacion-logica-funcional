@@ -33,6 +33,10 @@ main = do
     putStrLn("Diga elemento a buscar")
     input<-getLine
     let elemento = read input::Int
+    let existeE = if existe elemento arbol then "Si" else "No"
+
+
     let cantidad = contar elemento arbol 
        
     putStrLn $ "El elemento " ++ show elemento ++ " aparece " ++ show cantidad ++ " vez/veces en el árbol."
+    putStrLn $ "¿El elemento " ++ show elemento ++ " existe en el arbol? " ++  existeE 
