@@ -2,7 +2,8 @@ import Data.Char (isDigit)
 
 esTelefono :: String -> Bool
 esTelefono [] = False
-esTelefono s  = all isDigit s -- 'all' es una función de alto nivel sobre listas
+--esTelefono s  = all isDigit s -- 'all' es una función de alto nivel sobre listas
+esTelefono s  = length s == 9 && all isDigit s -- Verifica que tenga 9 dígitos y que todos sean dígitos
 main :: IO ()
 main = do
     let telefono1 = "1234567890"
