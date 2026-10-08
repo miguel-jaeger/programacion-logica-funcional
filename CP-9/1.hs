@@ -2,10 +2,17 @@
 -- Transforma el texto en una lista de IDs activos, ignorando errores y el 0
 procesarSQL :: [Int] -> [(Int, String)]
 procesarSQL ids = 
-    let validos = filter (/= 0) ids 
-    in map (\id -> if id > 0 
+     map (\id -> if id > 0 
                 then (id, "ACTIVO") 
                 else (id, "INACTIVO")) ids 
+
+persistirFichero :: String -> IO ()
+persistirFichero ids = do
+    let lineaTxt = "ID: " ++ ids ++ "\n"
+    --let lineaCsv = nombre ++ "," ++ codigo ++ "," ++ correo ++ "\n"
+    appendFile "lista-ids.txt" lineaTxt
+    --appendFile "backup.csv" lineaCsv
+    putStrLn " Datos respaldados en TXT "                
 
 main :: IO ()
 main = do
@@ -17,6 +24,8 @@ main = do
     let datosExternos = procesarSQL ids
     putStrLn $ "Reporte de Base de Datos (Post-Procesamiento):"
     print datosExternos -- Ejemplo: [(1,"ACTIVO"),(3,"ACTIVO")]
+
+    persistirFichero (show datosExternos)
     
     putStrLn "Presione una tecla para finalizar..."
     _ <- getLine
