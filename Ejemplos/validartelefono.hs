@@ -6,7 +6,7 @@ esTelefono [] = False
 esTelefono s  = length s == 9 && all isDigit s -- Verifica que tenga 9 dígitos y que todos sean dígitos
 main :: IO ()
 main = do
-    let telefono1 = "1234567890"
+    let telefono1 = "123456789"
     let telefono2 = "123-456-7890"
     let telefono3 = "abc1234567"
     
