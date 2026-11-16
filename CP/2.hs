@@ -1,6 +1,13 @@
 soloAdultos :: [Int] -> [Int]
 soloAdultos edades = [x | x <- edades, x >= 18]
 
+adultos :: [Int] -> [Int]
+adultos edades = map (\x -> if x >= 18 then x else 0) edades
+
+adultoFuntor :: [Int] -> [Int]
+adultoFuntor edades = map mayoresDeEdad edades
+    where mayoresDeEdad x = if x >= 18 then x else 0
+
 -- Variante con filter
 soloAdultosFilter :: [Int] -> [Int]
 soloAdultosFilter edades = filter (>= 18) edades
@@ -11,5 +18,5 @@ main = do
     putStrLn "Escriba la lista de edades separadas por espacios:"
     input <- getLine
     let edades = map read (words input) :: [Int]
-    let adultos = soloAdultos edades
-    putStrLn $ "Las edades de los adultos son: " ++ show adultos
+    let aduls = soloAdultos edades
+    putStrLn $ "Las edades de los adultos son: " ++ show aduls
