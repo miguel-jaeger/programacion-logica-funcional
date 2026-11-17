@@ -13,9 +13,9 @@ existe x (Nodo valor izq der)
 
 -- Construcción del árbol del ejemplo
 {-
-                     10
+                      10
                  /            \
-            5                   15
+             5                   15
            /    \           /       \
           2       7        12       20
          / \     / \      / \      / \
