@@ -13,13 +13,16 @@ apilar (x:xs) ys = x : apilar xs ys
 main :: IO ()
 main = do
     -- Ejemplo de uso del predicado de pertenencia
-    let lista = [1, 2, 3, 4, 5]
-    putStrLn "Ingrese un número para verificar si pertenece a la lista [1, 2, 3, 4, 5]: "
+    --let lista = [1, 2, 3, 4, 5]
+    putStrLn "Ingrese una lista de números separados por espacios: "
+    input <- getLine
+    let lista = map read (words input) :: [Int]
+    putStrLn "Ingrese un número para verificar si pertenece a la lista: "
     numero <- readLn :: IO Int
-    let resultadoPertenencia = pertenece numero lista
+    let resultadoPertenencia = if pertenece numero lista then "Sí" else "No"
     putStrLn $ "¿El número pertenece a la lista? " ++ show resultadoPertenencia
 
-    -- Ejemplo de uso de la relación de concatenación
+   {-- -- Ejemplo de uso de la relación de concatenación
     let lista1 = [1, 2]
     let lista2 = [3, 4]
     let resultadoConcatenacion = apilar lista1 lista2
@@ -27,4 +30,4 @@ main = do
 
     putStrLn "Presione una tecla para finalizar..."
     _ <- getLine
-    return ()
+    return ()--}
