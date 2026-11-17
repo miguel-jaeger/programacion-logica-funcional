@@ -13,8 +13,9 @@ main = do
     edad <- readLn :: IO Int
     putStrLn "Ingrese salario: "
     salario <- readLn :: IO Float
-    let resultado = esAptoCredito edad salario
-    putStrLn $ "¿Es apto para crédito? " ++ show resultado
+
+    let respuesta = if esAptoCredito edad salario then "Si" else "No"
+    putStrLn $ "¿Es apto para crédito? " ++ respuesta
 
     putStrLn "Presione una tecla para finalizar..."
     _ <- getLine
