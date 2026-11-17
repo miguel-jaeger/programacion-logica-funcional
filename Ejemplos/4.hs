@@ -13,7 +13,7 @@ main = do
     let categoriasPrioridad = words categorias
     putStrLn "Ingrese la categoría del producto (Salud, Alimentos, Seguridad): "
     categoria <- getLine
-    let resultado = puedeDespachar stock categoria categoriasPrioridad
+    let resultado = if puedeDespachar stock categoria categoriasPrioridad then "Sí" else "No"
     putStrLn $ "¿Puede despachar el producto? " ++ show resultado
 
     putStrLn "Presione una tecla para finalizar..."
