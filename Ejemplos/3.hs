@@ -23,7 +23,8 @@ main = do
     input<-getLine
     let valor = read input::Int
 
-    putStrLn $ "¿Existe el valor: "++ show valor ++" en el árbol? " ++ show (existe valor arbol)
+    let existeValor = if existe valor arbol then "Sí" else "No"
+    putStrLn $ "¿Existe el valor: "++ show valor ++" en el árbol? " ++ existeValor
     --putStrLn $ "¿Existe el valor 20 en el árbol? " ++ show (existe 20 arbol)
 
     putStrLn "Presione una tecla para finalizar..."
