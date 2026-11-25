@@ -7,5 +7,8 @@ evaluarCredito saldo
 
 main :: IO ()
 main = do
-    let saldoCliente = 5000
+    --let saldoCliente = 5000
+    putStrLn("Diga su saldo ")
+    input<-getLine
+    let saldoCliente=read input::Double
     putStrLn $ "Evaluación de crédito: " ++ evaluarCredito saldoCliente
